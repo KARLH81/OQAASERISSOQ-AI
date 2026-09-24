@@ -2,79 +2,146 @@
 <html lang="kl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>OQAASERISSOQ AI</title>
-
 <style>
-* { box-sizing: border-box; }
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#073b5c;color:white}
+header{padding:20px;text-align:center;font-weight:bold;font-size:22px}
+.hero{text-align:center;padding:50px 20px}
+h1{font-size:42px;margin:10px}.blue,h2{color:#67e8f9}
+.features{max-width:800px;margin:auto;padding:20px;display:grid;gap:18px}
+.card,.panel{background:#ffffff17;border:1px solid #ffffff33;border-radius:18px;padding:25px}
+.card{cursor:pointer}
+.card:active{transform:scale(.98)}
+.workspace{display:none;max-width:800px;margin:auto;padding:20px}
+textarea,select{width:100%;padding:14px;margin:8px 0;border-radius:10px;background:#062d49;color:white;border:1px solid #ffffff44;font-size:16px}
+textarea{min-height:160px}
+button{padding:13px 18px;margin:8px 5px 0 0;border:0;border-radius:10px;font-weight:bold;cursor:pointer}
+.start{background:#67e8f9;color:#073452}
+.back{background:white;color:#073452}
+.output{display:none;margin-top:15px;background:#06263e;padding:15px;border-radius:10px}
+footer{text-align:center;padding:35px;color:#b8d3df}
+</style>
+</head>
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#06172b,#0b4770);
-  color: white;
-  min-height: 100vh;
+<body>
+
+<header>OQAASERISSOQ AI • Kalaallit Nunaat</header>
+
+<div class="hero" id="hero">
+<h1>OQAASERISSOQ <span class="blue">AI</span></h1>
+<p>Kalaallit oqaasiinut naleqqussagaq AI-p pilersitsiviusoq.</p>
+</div>
+
+<div class="features" id="features">
+
+<div class="card" onclick="openTool('Allanneq')">
+<h2>✍ Allanneq</h2>
+<p>AI atorlugu kalaallisut allannernik pilersitsineq.</p>
+</div>
+
+<div class="card" onclick="openTool('Nutserineq')">
+<h2>🌍 Nutserineq</h2>
+<p>Kalaallisut, danskisut tuluttullu nutserineq.</p>
+</div>
+
+<div class="card" onclick="openTool('Nipilersuut')">
+<h2>🎵 Nipilersuut</h2>
+<p>Taallanik nipilersuutinillu isumassarsianik pilersitsineq.</p>
+</div>
+
+<div class="card" onclick="openTool('Pitsanngorsaruk')">
+<h2>✨ Pitsanngorsaruk</h2>
+<p>Allatat erseqqissarlugit pitsanngorsakkit.</p>
+</div>
+
+</div>
+
+<div class="workspace" id="workspace">
+<div class="panel">
+
+<h2 id="title"></h2>
+<p id="help"></p>
+
+<div id="langs" style="display:none">
+<select>
+<option>Kalaallisut</option>
+<option>Danskisut</option>
+<option>Tuluttut</option>
+</select>
+
+<select>
+<option>Danskisut</option>
+<option>Kalaallisut</option>
+<option>Tuluttut</option>
+</select>
+</div>
+
+<textarea id="text" placeholder="Uani allagit..."></textarea>
+
+<button class="start" onclick="runAI()">AI aallartiguk</button>
+<button class="back" onclick="goBack()">← Utimut</button>
+
+<div class="output" id="output"></div>
+
+</div>
+</div>
+
+<footer>© 2026 OQAASERISSOQ AI</footer>
+
+<script>
+function openTool(name){
+document.getElementById("hero").style.display="none";
+document.getElementById("features").style.display="none";
+document.getElementById("workspace").style.display="block";
+document.getElementById("title").innerText=name;
+
+let help="";
+
+if(name==="Allanneq")
+help="Suna allakkusunnerlugu allaguk.";
+
+if(name==="Nutserineq")
+help="Nutseritassat allakkit.";
+ 
+if(name==="Nipilersuut")
+help="Taallap imaluunniit nipilersuutip isumassarsiaa allaguk.";
+
+if(name==="Pitsanngorsaruk")
+help="Allatat pitsanngorsagassat allakkit.";
+
+document.getElementById("help").innerText=help;
+
+document.getElementById("langs").style.display=
+name==="Nutserineq"?"block":"none";
+
+document.getElementById("text").value="";
+document.getElementById("output").style.display="none";
+window.scrollTo(0,0);
 }
 
-header {
-  padding: 22px 7%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,.15);
+function goBack(){
+document.getElementById("workspace").style.display="none";
+document.getElementById("hero").style.display="block";
+document.getElementById("features").style.display="grid";
 }
 
-.logo {
-  font-size: 22px;
-  font-weight: 800;
+function runAI(){
+let text=document.getElementById("text").value.trim();
+let output=document.getElementById("output");
+
+output.style.display="block";
+
+if(!text){
+output.innerText="Siullermik oqaasertat allakkit.";
+return;
 }
 
-.hero {
-  max-width: 900px;
-  margin: auto;
-  padding: 75px 25px 55px;
-  text-align: center;
+output.innerText=
+"✓ OQAASERISSOQ AI piareerpoq.\n\nAI engine tullinnguulluni atassuserneqassaaq.";
 }
+</script>
 
-h1 {
-  font-size: clamp(42px,8vw,78px);
-  margin: 0 0 20px;
-}
-
-.accent,
-.card h2,
-.panel h2 {
-  color: #67e8f9;
-}
-
-.hero p {
-  font-size: 20px;
-  line-height: 1.6;
-  color: #d8edf7;
-}
-
-.button {
-  display: inline-block;
-  margin-top: 25px;
-  padding: 15px 28px;
-  background: white;
-  color: #073452;
-  text-decoration: none;
-  border-radius: 12px;
-  font-weight: bold;
-}
-
-.features {
-  padding: 30px 7% 90px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-  gap: 18px;
-}
-
-.card {
-  padding: 25px;
-  border-radius: 18px;
-  background: rgba(255,255,255,.09);
-  border: 1px solid rgba(255,255,255,.14);
-  cursor: pointer;
-  user-select:
+</body>
+</html>
