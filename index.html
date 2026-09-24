@@ -127,19 +127,39 @@ document.getElementById("hero").style.display="block";
 document.getElementById("features").style.display="grid";
 }
 
-function runAI(){
-let text=document.getElementById("text").value.trim();
-let output=document.getElementById("output");
+async function runAI(){
+  const text=document.getElementById("text").value.trim();
+  const output=document.getElementById("output");
 
-output.style.display="block";
+  output.style.display="block";
 
-if(!text){
-output.innerText="Siullermik oqaasertat allakkit.";
-return;
-}
+  if(!text){
+    output.innerText="Siullermik oqaasertat allakkit.";
+    return;
+  }
 
-output.innerText=
-"✓ OQAASERISSOQ AI piareerpoq.\n\nAI engine tullinnguulluni atassuserneqassaaq.";
+  output.innerText="OQAASERISSOQ AI eqqarsarpoq...";
+
+  try{
+    const response=await fetch("/api/chat",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        text:text,
+        tool:document.getElementById("title").innerText
+      })
+    });
+
+    const data=await response.json();
+
+    if(!response.ok){
+      throw new Error(data.error || "AI-mut attaveqarneq iluatsinngilaq.");
+    }
+
+    output.innerText=data.result;
+  }catch(error){
+    output.innerText="Kukkuneqarpoq: "+error.message;
+  }
 }
 </script>
 
