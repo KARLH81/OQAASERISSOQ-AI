@@ -1,0 +1,35 @@
+name: Android APK Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository aajuk
+        uses: actions/checkout@v4
+
+      - name: Java piareersaruk
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Gradle piareersaruk
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Gradlew akueriuk
+        run: chmod +x gradlew
+
+      - name: APK sanajuk
+        run: ./gradlew assembleDebug
+
+      - name: APK toqqoruk
+        uses: actions/upload-artifact@v4
+        with:
+          name: OQAASERISSOQ-AI-debug
+          path: app/build/outputs/apk/debug/*.apk
