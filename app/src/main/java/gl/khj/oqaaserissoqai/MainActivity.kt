@@ -5,6 +5,8 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.net.Uri
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +25,12 @@ class MainActivity : AppCompatActivity() {
             textSize = 18f
         })
         listOf("Allanneq", "Nutserineq", "Nipilersuut", "Pitsanngorsaruk").forEach { name ->
-            layout.addView(Button(this).apply { text = name })
+            layout.addView(Button(this).apply {
+                text = name
+                setOnClickListener {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://oqaaserissoq-ai.vercel.app/#tool=$name")))
+                }
+            })
         }
         setContentView(layout)
     }
