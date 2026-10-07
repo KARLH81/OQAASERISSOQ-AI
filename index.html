@@ -65,13 +65,13 @@ footer{text-align:center;padding:35px;color:#b8d3df}
 <p id="help"></p>
 
 <div id="langs" style="display:none">
-<select>
+<select id="sourceLanguage" aria-label="Oqaatsit aallaaviusut">
 <option>Kalaallisut</option>
 <option>Danskisut</option>
 <option>Tuluttut</option>
 </select>
 
-<select>
+<select id="targetLanguage" aria-label="Oqaatsit nutseriffigisassat">
 <option>Danskisut</option>
 <option>Kalaallisut</option>
 <option>Tuluttut</option>
@@ -146,7 +146,9 @@ async function runAI(){
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
         text:text,
-        tool:document.getElementById("title").innerText
+        tool:document.getElementById("title").innerText,
+        sourceLanguage:document.getElementById("sourceLanguage").value,
+        targetLanguage:document.getElementById("targetLanguage").value
       })
     });
 
@@ -161,6 +163,8 @@ async function runAI(){
     output.innerText="Kukkuneqarpoq: "+error.message;
   }
 }
+const selectedTool = decodeURIComponent(location.hash.replace('#tool=', ''));
+if (['Allanneq', 'Nutserineq', 'Nipilersuut', 'Pitsanngorsaruk'].includes(selectedTool)) openTool(selectedTool);
 </script>
 
 </body>
