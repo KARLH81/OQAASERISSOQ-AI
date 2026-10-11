@@ -51,7 +51,10 @@ class MainActivity : AppCompatActivity() {
         page.addView(toolPicker, matchWidth())
         toolPicker.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                languagePanel.visibility = if (tools[position] == "Nutserineq") View.VISIBLE else View.GONE\n                if (::textInput.isInitialized) {\n                    textInput.hint = if (tools[position] == "Meeqqat Create") "Meeqqap oqaasia ataatsimik allagit..." else "Uani allagit..."\n                }
+                languagePanel.visibility = if (tools[position] == "Nutserineq") View.VISIBLE else View.GONE
+                if (::textInput.isInitialized) {
+                    textInput.hint = if (tools[position] == "Meeqqat Create") "Meeqqap oqaasia ataatsimik allagit..." else "Uani allagit..."
+                }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         }
