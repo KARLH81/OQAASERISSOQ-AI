@@ -37,7 +37,7 @@ async function refresh(){
  text("version","—");text("integrity","—");text("approved","—");
  list("blockers",[],"Live status pissarsiarineqanngilaq.");
  list("coverage",[],"Live evaluation pissarsiarineqanngilaq.");
- if(!endpoint){connection.className="status";connection.textContent="Live endpoint suli配置-neqanngilaq — synthetic data takutinneqanngilaq.";checked.textContent=new Date().toLocaleString("kl-GL");return}
+ if(!endpoint){connection.className="status";connection.textContent="Live endpoint suli aaqqissorneqanngilaq — synthetic data takutinneqanngilaq.";checked.textContent=new Date().toLocaleString("kl-GL");return}
  try{
   const response=await fetch(endpoint,{headers:{Accept:"application/json"},cache:"no-store"});
   if(!response.ok)throw new Error("HTTP "+response.status);
