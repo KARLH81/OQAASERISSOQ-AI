@@ -1,9 +1,13 @@
 name: Android APK Build
 
 on:
+  pull_request:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, android-foundation]
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -21,15 +25,22 @@ jobs:
 
       - name: Gradle piareersaruk
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.11.1"
 
-      - name: Gradlew akueriuk
-        run: chmod +x gradlew
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: API regression tests
+        run: node --test tests/chat.test.mjs
 
       - name: APK sanajuk
-        run: ./gradlew assembleDebug
+        run: gradle assembleDebug lintDebug --no-daemon
 
       - name: APK toqqoruk
         uses: actions/upload-artifact@v4
         with:
           name: OQAASERISSOQ-AI-debug
           path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error

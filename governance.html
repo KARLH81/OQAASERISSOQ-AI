@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="kl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kalaallisut pitsaassuseq — OQAASERISSOQ AI</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#073b5c;color:#eefcff;font-family:Arial,sans-serif}
+main{max-width:760px;margin:auto;padding:20px}.card{background:#ffffff14;border:1px solid #ffffff33;border-radius:18px;padding:20px;margin:14px 0}
+h1,h2{color:#67e8f9}.status{font-weight:700;padding:12px;border-radius:10px;background:#532b2b}.ok{background:#164e3b}.warn{background:#5a451b}
+button,a{display:inline-block;border:0;border-radius:10px;padding:12px 16px;font-weight:700;text-decoration:none;margin:6px 6px 0 0}
+button{background:#67e8f9;color:#073452}.back{background:white;color:#073452}.small{color:#c2dce7;font-size:.9rem;line-height:1.45}
+dl{display:grid;grid-template-columns:1fr auto;gap:8px 14px}dd{font-weight:700}
+</style>
+</head>
+<body><main>
+<a class="back" href="/">← OQAASERISSOQ AI</a>
+<h1>🛡️ Kalaallisut pitsaassuseq & data</h1>
+<p class="small">Una qupperneq live status kisimi takutittarpaa. Synthetic imaluunniit lokal JSON fallback atorneqanngilaq.</p>
+<section class="card"><h2>Attaveqarneq</h2><div id="connection" class="status">Live status suli misissorneqanngilaq.</div>
+<button id="refresh">Nutaarsiassarsigit</button><p id="checked" class="small"></p></section>
+<section class="card"><h2>Gold Dataset</h2><dl>
+<dt>Version</dt><dd id="version">—</dd><dt>Integrity</dt><dd id="integrity">—</dd>
+<dt>Human-approved</dt><dd id="approved">—</dd><dt>Automatic promotion</dt><dd id="promotion">Matoqqavoq</dd>
+</dl></section>
+<section class="card"><h2>Human review & rights</h2>
+<ul id="blockers"><li>Live status pissarsiarineqanngilaq.</li></ul>
+<p class="small">Pending/reference-only imarisat training data-mut ilanngunneqassanngillat.</p></section>
+<section class="card"><h2>Oqaatsitigut misilitsinerit</h2><ul id="coverage"><li>Live evaluation pissarsiarineqanngilaq.</li></ul>
+<p class="small">Generic multilingual support Kalaallisut pitsaassusianut uppernarsaataanngilaq.</p></section>
+<script>
+const endpoint = window.KALAALLIT_STATUS_ENDPOINT || "";
+const connection=document.querySelector("#connection"), checked=document.querySelector("#checked");
+function text(id,value){document.getElementById(id).textContent=value??"—"}
+function list(id,items,empty){const el=document.getElementById(id);el.replaceChildren();(items?.length?items:[empty]).forEach(v=>{const li=document.createElement("li");li.textContent=String(v);el.appendChild(li)})}
+async function refresh(){
+ connection.className="status warn"; connection.textContent="Live status misissorneqarpoq…";
+ text("version","—");text("integrity","—");text("approved","—");
+ list("blockers",[],"Live status pissarsiarineqanngilaq.");
+ list("coverage",[],"Live evaluation pissarsiarineqanngilaq.");
+ if(!endpoint){connection.className="status";connection.textContent="Live endpoint suli aaqqissorneqanngilaq — synthetic data takutinneqanngilaq.";checked.textContent=new Date().toLocaleString("kl-GL");return}
+ try{
+  const response=await fetch(endpoint,{headers:{Accept:"application/json"},cache:"no-store"});
+  if(!response.ok)throw new Error("HTTP "+response.status);
+  const data=await response.json();
+  if(data.connection!=="live"||!data.manifest||!data.evaluation)throw new Error("status schema atuutinngilaq");
+  connection.className="status ok";connection.textContent="Live status atavoq.";
+  text("version",data.manifest.dataset_version);text("integrity",data.manifest.integrity_valid?"PASS":"FAIL");
+  text("approved",data.manifest.approved_count);text("promotion",data.automatic_promotion?"Ammasoq":"Matoqqavoq");
+  list("blockers",data.blockers,"Aporfissaq nalunaarutigineqanngilaq.");
+  list("coverage",data.evaluation.tasks?.map(t=>t.task+": "+t.evaluated+"/"+t.dataset_entries),"Evaluation paasissutissaqanngilaq.");
+ }catch(error){connection.className="status";connection.textContent="Live status pissarsiarineqanngilaq: "+error.message}
+ checked.textContent="Misissorneqarpoq: "+new Date().toLocaleString("kl-GL");
+}
+document.getElementById("refresh").onclick=refresh;refresh();
+</script></main></body></html>
