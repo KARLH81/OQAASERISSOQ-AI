@@ -13,6 +13,6 @@ Backend and web changes need deployment to https://oqaaserissoq-ai.vercel.app be
 
 ## Pending
 
-Device tests, release signing, authentication, server-enforced usage controls, privacy disclosures and Play release checks. This version does not implement audio-song/image/video generation, child mode or subscriptions. Kalaallisut quality still requires human review.
+Device tests, release signing, authentication, server-enforced usage controls, privacy disclosures and Play release checks. This version adds Meeqqat Create for short, original, child-friendly Kalaallisut songs from a child’s word or phrase. Audio, image and video generation and subscriptions are not implemented yet. Kalaallisut quality still requires human review.
 
 Language work can proceed with original or explicitly licensed examples and human reviewers. User drafts are not automatically approved training data. Do not add university content without permission.
