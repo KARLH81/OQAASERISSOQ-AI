@@ -42,9 +42,17 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!response.ok) {
-      return res.status(response.status).json({
-        error: "AI-mut attaveqarneq iluatsinngilaq. Kingusinnerusukkut misileqqiguk."
+      const errorMessage = response.status === 401 || response.status === 403
+        ? "OpenAI API-mut akuersissutit misissukkit. Vercel-imi OPENAI_API_KEY aamma OpenAI project-imi pisinnaatitsissutit misissorneqassapput."
+        : response.status === 429
+          ? "OpenAI API-p killissaa aporpoq. OpenAI account-imi usage, limit aamma saldo misissukkit."
+          : "OpenAI-mut attavearnermi teknikkikkut ajornartorsiuteqarpoq. Kingusinnerusukkut misileqqiguk.";
+      console.error("OpenAI API request failed", {
+        status: response.status,
+        code: data.error?.code,
+        type: data.error?.type
       });
+      return res.status(response.status).json({ error: errorMessage });
     }
 
     const result = (data.output || [])
