@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
 
   const languages = ["Kalaallisut", "Danskisut", "Tuluttut"];
-  if (!["Allanneq", "Nutserineq", "Nipilersuut", "Pitsanngorsaruk"].includes(tool) ||
+  if (!["Allanneq", "Nutserineq", "Nipilersuut", "Pitsanngorsaruk", "Meeqqat Create"].includes(tool) ||
       (tool === "Nutserineq" && (!languages.includes(sourceLanguage) || !languages.includes(targetLanguage)))) {
     return res.status(400).json({ error: "Oqaatsit suliassarlu eqqortumik toqqakkit." });
   }
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
         instructions:
           "Illit OQAASERISSOQ AI-vutit. Kalaallit oqaasii pingaarnertut atukkit. " +
           "Kalaallisut erseqqissumik akissuteqarit. Nalorniguit oqaatigissavat. " +
-          (tool === "Nutserineq" ? `Translate from ${sourceLanguage} to ${targetLanguage}. Preserve meaning; return only the translation.` : ""),
+          (tool === "Nutserineq" ? `Translate from ${sourceLanguage} to ${targetLanguage}. Preserve meaning; return only the translation.` : "") +\n          (tool === "Meeqqat Create" ? "Create an original, short, joyful, child-friendly song in clear Kalaallisut from the child’s supplied word or short phrase. Use simple language, a title, one short verse and a memorable chorus. Keep it age-appropriate; do not include frightening, violent, sexual, or adult themes, and do not ask for personal information." : ""),
         input: `${tool}: ${text}`
       })
     });
