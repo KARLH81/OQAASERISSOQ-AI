@@ -33,3 +33,25 @@ test('validation, translation and nested REST output', async () => {
     assert.doesNotMatch(JSON.stringify((await call({text:'aluu'})).body),/secret/);
   } finally { globalThis.fetch = oldFetch; if(oldKey === undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY = oldKey; }
 });
+
+
+test('child mode makes an original age-appropriate Kalaallisut song', async () => {
+  const oldKey = process.env.OPENAI_API_KEY;
+  const oldFetch = globalThis.fetch;
+  try {
+    process.env.OPENAI_API_KEY = 'test-only';
+    let request;
+    globalThis.fetch = async (_, options) => {
+      request = JSON.parse(options.body);
+      return {ok:true, json:async()=>({status:'completed',output:[{type:'message',content:[{type:'output_text',text:'Seqernup erinaq'}]}]})};
+    };
+    const res = await call({text:'seqernup',tool:'Meeqqat Create'});
+    assert.equal(res.statusCode,200);
+    assert.match(request.instructions,/child-friendly song/);
+    assert.match(request.instructions,/do not ask for personal information/);
+    assert.match(request.input,/Meeqqat Create: seqernup/);
+  } finally {
+    globalThis.fetch = oldFetch;
+    if(oldKey === undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY = oldKey;
+  }
+});
