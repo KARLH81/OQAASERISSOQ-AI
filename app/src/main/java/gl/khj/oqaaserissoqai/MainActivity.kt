@@ -20,7 +20,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class MainActivity : AppCompatActivity() {
-    private val tools = listOf("Allanneq", "Nutserineq", "Nipilersuut", "Pitsanngorsaruk")
+    private val tools = listOf("Allanneq", "Nutserineq", "Nipilersuut", "Pitsanngorsaruk", "Meeqqat Create")
     private val languages = listOf("Kalaallisut", "Danskisut", "Tuluttut")
     private lateinit var toolPicker: Spinner
     private lateinit var languagePanel: LinearLayout
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         page.addView(toolPicker, matchWidth())
         toolPicker.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                languagePanel.visibility = if (tools[position] == "Nutserineq") View.VISIBLE else View.GONE
+                languagePanel.visibility = if (tools[position] == "Nutserineq") View.VISIBLE else View.GONE\n                if (::textInput.isInitialized) {\n                    textInput.hint = if (tools[position] == "Meeqqat Create") "Meeqqap oqaasia ataatsimik allagit..." else "Uani allagit..."\n                }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         }
