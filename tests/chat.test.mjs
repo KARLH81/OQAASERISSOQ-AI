@@ -29,8 +29,15 @@ test('validation, translation and nested REST output', async () => {
     globalThis.fetch = async()=>({ok:true,json:async()=>({status:'incomplete',output:[]})});
     assert.equal((await call({text:'aluu'})).statusCode,502);
     globalThis.fetch = async()=>({ok:false,status:429,json:async()=>({error:{message:'secret internal details'}})});
-    assert.equal((await call({text:'aluu'})).statusCode,429);
-    assert.doesNotMatch(JSON.stringify((await call({text:'aluu'})).body),/secret/);
+    const limited = await call({text:'aluu'});
+    assert.equal(limited.statusCode,429);
+    assert.match(limited.body.error,/usage, limit aamma saldo/);
+    assert.doesNotMatch(JSON.stringify(limited.body),/secret/);
+    globalThis.fetch = async()=>({ok:false,status:401,json:async()=>({error:{message:'secret invalid key'}})});
+    const unauthorized = await call({text:'aluu'});
+    assert.equal(unauthorized.statusCode,401);
+    assert.match(unauthorized.body.error,/OPENAI_API_KEY/);
+    assert.doesNotMatch(JSON.stringify(unauthorized.body),/secret/);
   } finally { globalThis.fetch = oldFetch; if(oldKey === undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY = oldKey; }
 });
 
