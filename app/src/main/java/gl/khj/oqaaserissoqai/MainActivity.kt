@@ -1,5 +1,7 @@
 package gl.khj.oqaaserissoqai
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -14,6 +16,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
 import java.net.HttpURLConnection
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var runButton: Button
     private lateinit var statusText: TextView
     private lateinit var answerText: TextView
+    private lateinit var resultActions: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,7 +110,34 @@ class MainActivity : AppCompatActivity() {
         answerText.setPadding(dp(14), dp(14), dp(14), dp(14))
         answerText.setBackgroundColor(Color.WHITE)
         answerText.visibility = View.GONE
+        answerText.setTextIsSelectable(true)
         page.addView(answerText, matchWidth().apply { topMargin = dp(8) })
+
+        resultActions = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            visibility = View.GONE
+        }
+        val copyButton = Button(this).apply {
+            text = "Kopiér akissut"
+            setOnClickListener {
+                val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                clipboard.setPrimaryClip(ClipData.newPlainText("OQAASERISSOQ AI", answerText.text))
+                Toast.makeText(this@MainActivity, "Akissut kopierineqarpoq.", Toast.LENGTH_SHORT).show()
+            }
+        }
+        val shareButton = Button(this).apply {
+            text = "Avitseqatigiuk"
+            setOnClickListener {
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, answerText.text.toString())
+                }
+                startActivity(Intent.createChooser(shareIntent, "Akissut avitseqatigiuk"))
+            }
+        }
+        resultActions.addView(copyButton, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+        resultActions.addView(shareButton, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+        page.addView(resultActions, matchWidth().apply { topMargin = dp(4) })
 
         val webButton = Button(this).apply {
             text = "Web version ammaruk"
@@ -172,11 +203,14 @@ class MainActivity : AppCompatActivity() {
                     statusText.text = if (code in 200..299) "Akissut piareerpoq." else "AI-mut attaveqarneq iluatsinngilaq."
                     answerText.text = result
                     answerText.visibility = View.VISIBLE
+                    resultActions.visibility = if (code in 200..299) View.VISIBLE else View.GONE
                     runButton.isEnabled = true
                 }
             } catch (_: Exception) {
                 runOnUiThread {
                     statusText.text = "Serverimut attaveqarneq iluatsinngilaq. Interneti misissorlugu misileqqiguk."
+                    answerText.visibility = View.GONE
+                    resultActions.visibility = View.GONE
                     runButton.isEnabled = true
                 }
             } finally {
