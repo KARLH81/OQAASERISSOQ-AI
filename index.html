@@ -19,6 +19,8 @@ textarea,select{width:100%;padding:14px;margin:8px 0;border-radius:10px;backgrou
 textarea{min-height:160px}
 button{padding:13px 18px;margin:8px 5px 0 0;border:0;border-radius:10px;font-weight:bold;cursor:pointer}
 .start{background:#67e8f9;color:#073452}
+.start:disabled{opacity:.65;cursor:wait}
+.privacy{color:#c2dce7;font-size:.9rem;line-height:1.45}
 .back{background:white;color:#073452}
 .output{display:none;margin-top:15px;background:#06263e;padding:15px;border-radius:10px}
 footer{text-align:center;padding:35px;color:#b8d3df}
@@ -56,6 +58,11 @@ footer{text-align:center;padding:35px;color:#b8d3df}
 <p>Allatat erseqqissarlugit pitsanngorsakkit.</p>
 </div>
 
+<div class="card" onclick="openTool('Meeqqat Create')">
+<h2>🧸 Meeqqat Create</h2>
+<p>Oqaaseq ataatsimik meeqqanut erinarsuummik naatsumik pilersitsigit.</p>
+</div>
+
 <div class="card" onclick="location.href='governance.html'">
 <h2>🛡 Kalaallisut pitsaassuseq & data</h2>
 <p>Gold Dataset, human review aamma pisinnaatitaaffiit live killiffii.</p>
@@ -83,7 +90,8 @@ footer{text-align:center;padding:35px;color:#b8d3df}
 </select>
 </div>
 
-<textarea id="text" placeholder="Uani allagit..."></textarea>
+<textarea id="text" placeholder="Uani allagit..." maxlength="12000"></textarea>
+<p class="privacy" id="privacy">Allatat AI-mut serverikkut nassiunneqassapput. Inuttut paasissutissat pingaarutillit ilanngunnagit.</p>
 
 <button class="start" onclick="runAI()">AI aallartiguk</button>
 <button class="back" onclick="goBack()">← Utimut</button>
@@ -116,12 +124,16 @@ help="Taallap imaluunniit nipilersuutip isumassarsiaa allaguk.";
 if(name==="Pitsanngorsaruk")
 help="Allatat pitsanngorsagassat allakkit.";
 
+if(name==="Meeqqat Create")
+help="Meeqqap oqaasia imaluunniit isumassarsiaa naatsumik allaguk. Meeqqap aqqa, najugaqarfia atuarfialuunniit ilanngunneqassanngilaq.";
+
 document.getElementById("help").innerText=help;
 
 document.getElementById("langs").style.display=
 name==="Nutserineq"?"block":"none";
 
 document.getElementById("text").value="";
+document.getElementById("text").placeholder=name==="Meeqqat Create"?"Meeqqap oqaasia ataatsimik allagit...":"Uani allagit...";
 document.getElementById("output").style.display="none";
 window.scrollTo(0,0);
 }
@@ -135,6 +147,7 @@ document.getElementById("features").style.display="grid";
 async function runAI(){
   const text=document.getElementById("text").value.trim();
   const output=document.getElementById("output");
+  const button=document.querySelector(".start");
 
   output.style.display="block";
 
@@ -143,6 +156,7 @@ async function runAI(){
     return;
   }
 
+  button.disabled=true;
   output.innerText="OQAASERISSOQ AI eqqarsarpoq...";
 
   try{
@@ -165,11 +179,13 @@ async function runAI(){
 
     output.innerText=data.result;
   }catch(error){
-    output.innerText="Kukkuneqarpoq: "+error.message;
+    output.innerText="Kukkuneqarpoq: "+(error instanceof Error?error.message:"AI-mut attaveqarneq iluatsinngilaq.");
+  }finally{
+    button.disabled=false;
   }
 }
 const selectedTool = decodeURIComponent(location.hash.replace('#tool=', ''));
-if (['Allanneq', 'Nutserineq', 'Nipilersuut', 'Pitsanngorsaruk'].includes(selectedTool)) openTool(selectedTool);
+if (['Allanneq', 'Nutserineq', 'Nipilersuut', 'Pitsanngorsaruk', 'Meeqqat Create'].includes(selectedTool)) openTool(selectedTool);
 </script>
 
 </body>
