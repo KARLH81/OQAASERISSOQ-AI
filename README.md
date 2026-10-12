@@ -1,18 +1,18 @@
-# OQAASERISSOQ AI — internal-test foundation
+# OQAASERISSOQ AI — Android internal-test app
 
-This branch preserves the Android foundation. Its four buttons open the corresponding existing web tools in the browser. It is an initial launcher, not yet a complete native AI app. It does not depend on an Ilisimatusarfik agreement.
+The Android app provides five Kalaallisut tools: Allanneq, Nutserineq, Nipilersuut, Pitsanngorsaruk and Meeqqat Create. Requests go through the Vercel server endpoint; the OpenAI API key stays on the server and is never shipped in the APK. Results can be copied or shared from Android.
+
+The web version is available at https://oqaaserissoq-ai.vercel.app.
 
 ## Build and verify
 
 - JDK 17, Android SDK 35, Gradle 8.11.1.
-- `gradle assembleDebug lintDebug` builds the internal-test APK.
-- `node --test tests/chat.test.mjs` verifies backend handling with mocked responses, without API charges.
-- GitHub Actions installs pinned Gradle instead of calling a missing wrapper.
+- `gradle assembleDebug lintDebug --no-daemon` builds the internal-test APK.
+- `node --test tests/chat.test.mjs` exercises backend handling with mocked responses and makes no API calls or charges.
+- GitHub Actions runs the tests and APK build and stores the debug APK as an artifact.
 
-Backend and web changes need deployment to https://oqaaserissoq-ai.vercel.app before the corrected live functionality is available. OPENAI_API_KEY stays server-side, never in the APK or repository.
+## Current limits
 
-## Pending
-
-Device tests, release signing, authentication, server-enforced usage controls, privacy disclosures and Play release checks. This version adds Meeqqat Create for short, original, child-friendly Kalaallisut songs from a child’s word or phrase. Audio, image and video generation and subscriptions are not implemented yet. Kalaallisut quality still requires human review.
+This is an internal-test foundation, not yet a full Play Store release. It has no account/login, saved creations, server-enforced usage limits, subscription, audio generation, image generation or video generation. Device testing, release signing, privacy disclosures and Play Console checks remain. Kalaallisut outputs need human review.
 
 Language work can proceed with original or explicitly licensed examples and human reviewers. User drafts are not automatically approved training data. Do not add university content without permission.
