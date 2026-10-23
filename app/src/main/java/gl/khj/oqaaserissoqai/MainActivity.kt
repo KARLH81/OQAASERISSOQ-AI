@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textInput: EditText
     private lateinit var runButton: Button
     private lateinit var statusText: TextView
+    private lateinit var privacyNotice: TextView
     private lateinit var answerText: TextView
     private lateinit var resultActions: LinearLayout
 
@@ -74,6 +75,13 @@ class MainActivity : AppCompatActivity() {
                 if (::textInput.isInitialized) {
                     textInput.hint = if (tools[position] == "Meeqqat Create") "Meeqqap oqaasia ataatsimik allagit..." else "Uani allagit..."
                 }
+                if (::privacyNotice.isInitialized) {
+                    privacyNotice.text = if (tools[position] == "Meeqqat Create") {
+                        "Meeqqap aqqa, atuarfia, najugaqarfia, peqqinnissaa attaveqarfialuunniit allassanngilat. Meeqqat angajoqqaamik/akisussaasumik ikiorneqarlutik atussapput. Allatat AI-mut serverikkut nassiunneqassapput."
+                    } else {
+                        "Allatat serverikkut AI-mut nassiunneqassapput. Inuttut paasissutissat pingaarutillit ilanngunnagit."
+                    }
+                }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         }
@@ -104,11 +112,12 @@ class MainActivity : AppCompatActivity() {
         }
         page.addView(textInput, matchWidth().apply { topMargin = dp(6) })
 
-        page.addView(textView(
-            "Allatat serverikkut AI-mut nassiunneqassapput. API key app-imik ilaanngilaq.",
+        privacyNotice = textView(
+            "Allatat serverikkut AI-mut nassiunneqassapput. Inuttut paasissutissat pingaarutillit ilanngunnagit.",
             13f,
             Color.rgb(82, 103, 116)
-        ).withTopMargin(8))
+        ).withTopMargin(8)
+        page.addView(privacyNotice)
 
         runButton = Button(this).apply {
             text = "AI aallartiguk"
