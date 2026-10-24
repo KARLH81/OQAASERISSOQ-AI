@@ -26,8 +26,9 @@ class MainActivityTest {
     fun launchShowsCoreControls() {
         ActivityScenario.launch(MainActivity::class.java).use {
             assertTextAppears("OQAASERISSOQ AI")
-            assertTextAppears("AI aallartiguk")
-            assertTextAppears("Web version ammaruk")
+            assertTextAppears("Suliassaq")
+            assertObjectAppears(By.clazz("android.widget.Spinner"), "Tool selector")
+            assertObjectAppears(By.clazz("android.widget.EditText"), "Text input")
         }
     }
 
@@ -58,6 +59,13 @@ class MainActivityTest {
         assertTrue(
             "Expected text fragment did not appear: $text",
             device.wait(Until.hasObject(By.textContains(text)), TIMEOUT_MS)
+        )
+    }
+
+    private fun assertObjectAppears(selector: androidx.test.uiautomator.BySelector, label: String) {
+        assertTrue(
+            "$label did not appear",
+            device.wait(Until.hasObject(selector), TIMEOUT_MS)
         )
     }
 
