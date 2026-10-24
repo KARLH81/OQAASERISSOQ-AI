@@ -1,44 +1,67 @@
 package gl.khj.oqaaserissoqai
 
-import android.widget.Spinner
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.hamcrest.Matchers.anything
-import org.hamcrest.Matchers.containsString
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until
+import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.test.espresso.Espresso.onData
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withText
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
+    private lateinit var device: UiDevice
+
+    @Before
+    fun prepareDevice() {
+        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        device.wakeUp()
+        device.executeShellCommand("wm dismiss-keyguard")
+    }
+
     @Test
     fun launchShowsCoreControls() {
-        val scenario = ActivityScenario.launch(MainActivity::class.java)
-        try {
-            onView(withText("OQAASERISSOQ AI")).check(matches(isDisplayed()))
-            onView(withText("AI aallartiguk")).check(matches(isDisplayed()))
-            onView(withText("Web version ammaruk")).check(matches(isDisplayed()))
-        } finally {
-            scenario.close()
+        ActivityScenario.launch(MainActivity::class.java).use {
+            assertTextAppears("OQAASERISSOQ AI")
+            assertTextAppears("AI aallartiguk")
+            assertTextAppears("Web version ammaruk")
         }
     }
 
     @Test
     fun selectingChildModeShowsPrivacyAndParentNotice() {
-        val scenario = ActivityScenario.launch(MainActivity::class.java)
-        try {
-            onView(isAssignableFrom(Spinner::class.java)).perform(click())
-            onData(anything()).atPosition(4).perform(click())
-            onView(withText(containsString("Meeqqap aqqa"))).check(matches(isDisplayed()))
-            onView(withText(containsString("angajoqqaamik"))).check(matches(isDisplayed()))
-        } finally {
-            scenario.close()
+        ActivityScenario.launch(MainActivity::class.java).use {
+            val spinner = device.wait(Until.findObject(By.clazz("android.widget.Spinner")), TIMEOUT_MS)
+            assertTrue("Tool selector did not appear", spinner != null)
+            spinner.click()
+
+            val childMode = device.wait(Until.findObject(By.text("Meeqqat Create")), TIMEOUT_MS)
+            assertTrue("Meeqqat Create option did not appear", childMode != null)
+            childMode.click()
+
+            assertTextContains("Meeqqap aqqa")
+            assertTextContains("angajoqqaamik")
         }
+    }
+
+    private fun assertTextAppears(text: String) {
+        assertTrue(
+            "Expected text did not appear: $text",
+            device.wait(Until.hasObject(By.text(text)), TIMEOUT_MS)
+        )
+    }
+
+    private fun assertTextContains(text: String) {
+        assertTrue(
+            "Expected text fragment did not appear: $text",
+            device.wait(Until.hasObject(By.textContains(text)), TIMEOUT_MS)
+        )
+    }
+
+    private companion object {
+        const val TIMEOUT_MS = 10_000L
     }
 }
