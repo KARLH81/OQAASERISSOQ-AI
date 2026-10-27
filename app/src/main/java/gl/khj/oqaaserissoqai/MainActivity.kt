@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var targetPicker: Spinner
     private lateinit var textInput: EditText
     private lateinit var runButton: Button
+    private lateinit var clearButton: Button
     private lateinit var statusText: TextView
     private lateinit var privacyNotice: TextView
     private lateinit var answerText: TextView
@@ -111,6 +112,25 @@ class MainActivity : AppCompatActivity() {
             setBackgroundColor(Color.WHITE)
         }
         page.addView(textInput, matchWidth().apply { topMargin = dp(6) })
+
+        clearButton = Button(this).apply {
+            text = "Allatat piiarlugit"
+            setOnClickListener {
+                androidx.appcompat.app.AlertDialog.Builder(this@MainActivity)
+                    .setTitle("Allatat piiarlugit?")
+                    .setMessage("Oqaasertat akissullu app-imi isikkivimmiittut piiarneqassapput.")
+                    .setNegativeButton("Taamaatitsi", null)
+                    .setPositiveButton("Piiaruk") { _, _ ->
+                        textInput.text?.clear()
+                        answerText.text = ""
+                        answerText.visibility = View.GONE
+                        resultActions.visibility = View.GONE
+                        statusText.text = ""
+                    }
+                    .show()
+            }
+        }
+        page.addView(clearButton, matchWidth().apply { topMargin = dp(6) })
 
         privacyNotice = textView(
             "Allatat serverikkut AI-mut nassiunneqassapput. Inuttut paasissutissat pingaarutillit ilanngunnagit.",
@@ -196,6 +216,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         runButton.isEnabled = false
+        clearButton.isEnabled = false
         statusText.text = "OQAASERISSOQ AI eqqarsarpoq..."
         answerText.visibility = View.GONE
 
@@ -229,6 +250,7 @@ class MainActivity : AppCompatActivity() {
                     answerText.visibility = View.VISIBLE
                     resultActions.visibility = if (code in 200..299) View.VISIBLE else View.GONE
                     runButton.isEnabled = true
+                    clearButton.isEnabled = true
                 }
             } catch (_: Exception) {
                 runOnUiThread {
@@ -236,6 +258,7 @@ class MainActivity : AppCompatActivity() {
                     answerText.visibility = View.GONE
                     resultActions.visibility = View.GONE
                     runButton.isEnabled = true
+                    clearButton.isEnabled = true
                 }
             } finally {
                 connection?.disconnect()
