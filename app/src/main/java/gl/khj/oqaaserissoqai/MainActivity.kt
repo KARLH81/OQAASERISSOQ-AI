@@ -18,6 +18,9 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
@@ -31,7 +34,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var targetPicker: Spinner
     private lateinit var textInput: EditText
     private lateinit var runButton: Button
+    private lateinit var clearButton: Button
     private lateinit var statusText: TextView
+    private lateinit var privacyNotice: TextView
     private lateinit var answerText: TextView
     private lateinit var resultActions: LinearLayout
 
@@ -47,6 +52,18 @@ class MainActivity : AppCompatActivity() {
             isFillViewport = true
             addView(page)
         }
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        ViewCompat.setOnApplyWindowInsetsListener(scroll) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            view.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                maxOf(systemBars.bottom, ime.bottom)
+            )
+            insets
+        }
 
         page.addView(textView("OQAASERISSOQ AI", 28f, Color.rgb(7, 59, 92), true))
         page.addView(textView("Kalaallisut allanneq, nutserineq pitsanngorsaanerlu.", 16f, Color.rgb(57, 79, 93)))
@@ -58,6 +75,13 @@ class MainActivity : AppCompatActivity() {
                 languagePanel.visibility = if (tools[position] == "Nutserineq") View.VISIBLE else View.GONE
                 if (::textInput.isInitialized) {
                     textInput.hint = if (tools[position] == "Meeqqat Create") "Meeqqap oqaasia ataatsimik allagit..." else "Uani allagit..."
+                }
+                if (::privacyNotice.isInitialized) {
+                    privacyNotice.text = if (tools[position] == "Meeqqat Create") {
+                        "Meeqqap aqqa, atuarfia, najugaqarfia, peqqinnissaa attaveqarfialuunniit allassanngilat. Meeqqat angajoqqaamik/akisussaasumik ikiorneqarlutik atussapput. Allatat AI-mut serverikkut nassiunneqassapput."
+                    } else {
+                        "Allatat serverikkut AI-mut nassiunneqassapput. Inuttut paasissutissat pingaarutillit ilanngunnagit."
+                    }
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
@@ -89,11 +113,31 @@ class MainActivity : AppCompatActivity() {
         }
         page.addView(textInput, matchWidth().apply { topMargin = dp(6) })
 
-        page.addView(textView(
-            "Allatat serverikkut AI-mut nassiunneqassapput. API key app-imik ilaanngilaq.",
+        clearButton = Button(this).apply {
+            text = "Allatat piiarlugit"
+            setOnClickListener {
+                androidx.appcompat.app.AlertDialog.Builder(this@MainActivity)
+                    .setTitle("Allatat piiarlugit?")
+                    .setMessage("Oqaasertat akissullu app-imi isikkivimmiittut piiarneqassapput.")
+                    .setNegativeButton("Taamaatitsi", null)
+                    .setPositiveButton("Piiaruk") { _, _ ->
+                        textInput.text?.clear()
+                        answerText.text = ""
+                        answerText.visibility = View.GONE
+                        resultActions.visibility = View.GONE
+                        statusText.text = ""
+                    }
+                    .show()
+            }
+        }
+        page.addView(clearButton, matchWidth().apply { topMargin = dp(6) })
+
+        privacyNotice = textView(
+            "Allatat serverikkut AI-mut nassiunneqassapput. Inuttut paasissutissat pingaarutillit ilanngunnagit.",
             13f,
             Color.rgb(82, 103, 116)
-        ).withTopMargin(8))
+        ).withTopMargin(8)
+        page.addView(privacyNotice)
 
         runButton = Button(this).apply {
             text = "AI aallartiguk"
@@ -172,6 +216,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         runButton.isEnabled = false
+        clearButton.isEnabled = false
         statusText.text = "OQAASERISSOQ AI eqqarsarpoq..."
         answerText.visibility = View.GONE
 
@@ -205,6 +250,7 @@ class MainActivity : AppCompatActivity() {
                     answerText.visibility = View.VISIBLE
                     resultActions.visibility = if (code in 200..299) View.VISIBLE else View.GONE
                     runButton.isEnabled = true
+                    clearButton.isEnabled = true
                 }
             } catch (_: Exception) {
                 runOnUiThread {
@@ -212,6 +258,7 @@ class MainActivity : AppCompatActivity() {
                     answerText.visibility = View.GONE
                     resultActions.visibility = View.GONE
                     runButton.isEnabled = true
+                    clearButton.isEnabled = true
                 }
             } finally {
                 connection?.disconnect()

@@ -55,6 +55,8 @@ test('child mode makes an original age-appropriate Kalaallisut song', async () =
     const res = await call({text:'seqernup',tool:'Meeqqat Create'});
     assert.equal(res.statusCode,200);
     assert.match(request.instructions,/child-friendly song/);
+    assert.match(request.instructions,/suitable for children and families/);
+    assert.match(request.instructions,/Never request or include a child's name/);
     assert.match(request.instructions,/do not ask for personal information/);
     assert.match(request.input,/Meeqqat Create: seqernup/);
   } finally {
