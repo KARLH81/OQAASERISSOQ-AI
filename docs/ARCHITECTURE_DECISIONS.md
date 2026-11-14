@@ -22,6 +22,8 @@ All requests set `store: false` and cap output at 2,500 tokens. Provider secrets
 
 Accounts and saved creations are not implemented. Do not promise either until a server-side identity check and durable storage exist. The planned data layer should use standard PostgreSQL and a small repository interface, so data can be exported and restored without app-specific database features. Keep the Android client away from direct database credentials.
 
+A first portable schema is drafted in `db/migrations/001_beta_access_and_saved_creations.sql`. It is not applied to a live database and does not itself enforce authorization. `CREATOR_AUTH_SUBJECT` should identify the one creator account in the server environment; only that identity can issue or revoke free-access grants. All other account requests must be checked against a verified identity token and an active grant before any saved data or AI call is allowed.
+
 The access model must support:
 
 1. A creator account that is always free.

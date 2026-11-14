@@ -22,7 +22,9 @@ This board covers only the five delivery tracks for OQAASERISSOQ AI. The priorit
 
 **Done:** The Vercel API calls the configured AI provider from the server, defaults to OpenAI, fails closed for an unknown provider, sets `store: false`, validates the five tools and keeps provider secrets out of the APK. A future-provider boundary and data-layer rules are documented.
 
-**Pending:** Configure durable storage and sign-in before promising saved creations or server-enforced usage limits. Add account deletion, retention rules, abuse controls and operational monitoring. Do not add a paid subscription: the creator must be able to use the app free, and the creator decides who else gets free access.
+**In progress:** A portable PostgreSQL schema is drafted for pseudonymous accounts, creator-issued free-access grants, explicitly saved creations and daily usage counters. It has not been applied to a live database.
+
+**Pending:** Configure durable storage and verified sign-in before promising saved creations or server-enforced usage limits. Add account deletion, retention rules, abuse controls and operational monitoring. Do not add a paid subscription: the creator must be able to use the app free, and the creator decides who else gets free access.
 
 ## 4. Google Play readiness
 
@@ -42,6 +44,6 @@ This board covers only the five delivery tracks for OQAASERISSOQ AI. The priorit
 
 1. Install the CI-built APK on Samsung S25 and record device issues.
 2. Complete fluent human review and rights records for language cases.
-3. Provision durable Postgres storage and account sign-in behind server-side access controls.
+3. Provision durable Postgres storage and verified account sign-in behind server-side access controls, using the draft schema as a review starting point.
 4. Finalize privacy, safety reporting and support details against the deployed backend.
 5. Sign the release build and complete the Google Play internal test.
