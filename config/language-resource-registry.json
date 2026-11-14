@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-11-10",
+  "policy": {
+    "default": "deny",
+    "public_availability_is_permission": false,
+    "pending_or_reference_only_is_training_data": false,
+    "automatic_gold_promotion": false
+  },
+  "sources": [
+    {
+      "id": "oqaasileriffik",
+      "name": "Oqaasileriffik resources",
+      "source_url": "https://oqaasileriffik.gl/en/langtech/",
+      "permission_status": "pending",
+      "rights_reviewed": false,
+      "allowed_uses": ["reference"],
+      "training_allowed": false,
+      "redistribution_allowed": false,
+      "commercial_use_allowed": false,
+      "withdrawal_method_confirmed": false,
+      "privacy_review_status": "not_documented",
+      "notes": "Public access is not treated as permission. Written AI/model-training and redistribution permission is still required."
+    },
+    {
+      "id": "giellalt-lang-kal",
+      "name": "GiellaLT lang-kal",
+      "source_url": "https://github.com/giellalt/lang-kal",
+      "permission_status": "license_documented_for_software",
+      "rights_reviewed": false,
+      "allowed_uses": ["reference", "integration_testing", "app_store_distribution_subject_to_gpl"],
+      "training_allowed": false,
+      "redistribution_allowed": false,
+      "commercial_use_allowed": false,
+      "withdrawal_method_confirmed": false,
+      "privacy_review_status": "not_applicable_to_software_source",
+      "license": {
+        "name": "GPL-3.0-or-later with section 7 app-store exception",
+        "exception_commit": "94171339eab695c6eae41f35c97be5516065614b",
+        "exception_url": "https://github.com/giellalt/lang-kal/commit/94171339eab695c6eae41f35c97be5516065614b"
+      },
+      "notes": "The exception helps app-store distribution when GPL source remains available. It is not recorded here as permission for model training, closed-source reuse, or unrestricted redistribution."
+    },
+    {
+      "id": "giellalt-regtest-kal",
+      "name": "GiellaLT regtest-kal",
+      "source_url": "https://github.com/giellalt/regtest-kal",
+      "permission_status": "pending",
+      "rights_reviewed": false,
+      "allowed_uses": ["reference"],
+      "training_allowed": false,
+      "redistribution_allowed": false,
+      "commercial_use_allowed": false,
+      "withdrawal_method_confirmed": false,
+      "privacy_review_status": "not_documented",
+      "notes": "No repository-level license has been confirmed. Do not copy tests into the project without written permission or a clear license."
+    },
+    {
+      "id": "divvun",
+      "name": "Divvun resources",
+      "source_url": "https://divvun.no/",
+      "permission_status": "pending",
+      "rights_reviewed": false,
+      "allowed_uses": ["reference"],
+      "training_allowed": false,
+      "redistribution_allowed": false,
+      "commercial_use_allowed": false,
+      "withdrawal_method_confirmed": false,
+      "privacy_review_status": "not_documented",
+      "notes": "Resource-specific license and AI-use permission must be recorded before copying, training, redistribution, or commercial use."
+    },
+    {
+      "id": "community-verified-karl",
+      "name": "Karl-approved community contribution",
+      "source_url": null,
+      "permission_status": "conditional_human_review",
+      "rights_reviewed": false,
+      "allowed_uses": ["candidate_preview"],
+      "training_allowed": false,
+      "redistribution_allowed": false,
+      "commercial_use_allowed": false,
+      "withdrawal_method_confirmed": false,
+      "privacy_review_status": "required_per_item",
+      "notes": "Each item needs provenance, contributor consent, allowed use, withdrawal method, privacy review and human language review. No automatic promotion."
+    }
+  ]
+}

@@ -32,8 +32,8 @@ jobs:
         with:
           node-version: "22"
 
-      - name: API regression tests
-        run: node --test tests/chat.test.mjs
+      - name: API and language-rights regression tests
+        run: node --test tests/*.test.mjs
 
       - name: APK sanajuk
         run: gradle assembleDebug lintDebug --no-daemon
