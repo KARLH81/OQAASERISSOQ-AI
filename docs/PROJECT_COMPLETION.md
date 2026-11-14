@@ -14,7 +14,7 @@ This board covers only the five delivery tracks for OQAASERISSOQ AI. The priorit
 
 **In progress:** A fail-closed source registry and CI checks are on the language-rights branch. External sources remain blocked for training and redistribution unless permissions and human review are documented.
 
-**Pending:** A fluent human reviewer must check the new morphology cases and record expected outputs, stable IDs, source rights and review dates. One approved Gold Dataset entry and six community cases awaiting review are the last recorded baseline, not a live quality claim. Do not advertise a verified quality score.
+**Pending:** A fluent human reviewer must check the new morphology cases and record expected outputs, stable IDs, source rights and review dates. The last project summary recorded just one human-reviewed Gold Dataset entry; the live count has not been verified. The recorded 24/24 automated checks cover structural tests, not Kalaallisut accuracy. Do not advertise a verified quality score.
 
 ## 3. Backend and deployment
 
@@ -41,4 +41,3 @@ This board covers only the five delivery tracks for OQAASERISSOQ AI. The priorit
 3. Resolve the backend storage, sign-in and creator-controlled free-access design.
 4. Finalize privacy, safety-reporting and support details against the actual backend.
 5. Sign the release build and complete the Google Play internal test.
-
