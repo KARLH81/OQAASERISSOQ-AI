@@ -15,4 +15,13 @@ The web version is available at https://oqaaserissoq-ai.vercel.app.
 
 This is an internal-test foundation, not yet a full Play Store release. It has no account/login, saved creations, server-enforced usage limits, subscription, audio generation, image generation or video generation. Device testing, release signing, privacy disclosures and Play Console checks remain. Kalaallisut outputs need human review.
 
+The creator account must remain free, and the creator controls which other accounts receive free access. That access control is not implemented yet. No paid subscription is planned.
+
 Language work can proceed with original or explicitly licensed examples and human reviewers. User drafts are not automatically approved training data. Do not add university content without permission.
+
+## Delivery work
+
+- [Five-track completion board](docs/PROJECT_COMPLETION.md)
+- [Future-proof architecture decisions](docs/ARCHITECTURE_DECISIONS.md)
+- [Samsung S25 internal beta checklist](docs/SAMSUNG_S25_BETA_TEST.md)
+- [Kalaallisut human-review worksheet](docs/KALAALLISUT_HUMAN_REVIEW_TEMPLATE.md)
