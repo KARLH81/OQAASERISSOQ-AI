@@ -1,6 +1,6 @@
 # OQAASERISSOQ AI — Android internal-test app
 
-The Android app provides five Kalaallisut tools: Allanneq, Nutserineq, Nipilersuut, Pitsanngorsaruk and Meeqqat Create. Requests go through the Vercel server endpoint; the OpenAI API key stays on the server and is never shipped in the APK. Results can be copied or shared from Android. Users can also clear the visible input and response from the screen after confirmation.
+The Android app provides six Kalaallisut tools: Allanneq, Nutserineq, Nipilersuut, Pitsanngorsaruk, Meeqqat Create and Ulluinnarni Allagaq. Ulluinnarni Allagaq helps prepare short, respectful everyday messages for school, childcare, work, housing, municipal services and appointments. It uses only user-provided facts and placeholders for missing details; users should not enter sensitive personal information. Requests go through the Vercel server endpoint; the OpenAI API key stays on the server and is never shipped in the APK. Results can be copied or shared from Android. Users can also clear the visible input and response from the screen after confirmation.
 
 The web version is available at https://oqaaserissoq-ai.vercel.app.
 
