@@ -26,7 +26,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class MainActivity : AppCompatActivity() {
-    private val tools = listOf("Allanneq", "Nutserineq", "Nipilersuut", "Pitsanngorsaruk", "Meeqqat Create")
+    private val tools = listOf("Allanneq", "Nutserineq", "Nipilersuut", "Pitsanngorsaruk", "Meeqqat Create", "Ulluinnarni Allagaq")
     private val languages = listOf("Kalaallisut", "Danskisut", "Tuluttut")
     private lateinit var toolPicker: Spinner
     private lateinit var languagePanel: LinearLayout
@@ -74,13 +74,17 @@ class MainActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 languagePanel.visibility = if (tools[position] == "Nutserineq") View.VISIBLE else View.GONE
                 if (::textInput.isInitialized) {
-                    textInput.hint = if (tools[position] == "Meeqqat Create") "Meeqqap oqaasia ataatsimik allagit..." else "Uani allagit..."
+                    textInput.hint = when (tools[position]) {
+                        "Meeqqat Create" -> "Meeqqap oqaasia ataatsimik allagit..."
+                        "Ulluinnarni Allagaq" -> "Sumiiffik suna pillugu, kikkunnut, aamma suut oqaatigissallugit nassuiaruk..."
+                        else -> "Uani allagit..."
+                    }
                 }
                 if (::privacyNotice.isInitialized) {
-                    privacyNotice.text = if (tools[position] == "Meeqqat Create") {
-                        "Meeqqap aqqa, atuarfia, najugaqarfia, peqqinnissaa attaveqarfialuunniit allassanngilat. Meeqqat angajoqqaamik/akisussaasumik ikiorneqarlutik atussapput. Allatat AI-mut serverikkut nassiunneqassapput."
-                    } else {
-                        "Allatat serverikkut AI-mut nassiunneqassapput. Inuttut paasissutissat pingaarutillit ilanngunnagit."
+                    privacyNotice.text = when (tools[position]) {
+                        "Meeqqat Create" -> "Meeqqap aqqa, atuarfia, najugaqarfia, peqqinnissaa attaveqarfialuunniit allassanngilat. Meeqqat angajoqqaamik/akisussaasumik ikiorneqarlutik atussapput. Allatat AI-mut serverikkut nassiunneqassapput."
+                        "Ulluinnarni Allagaq" -> "Allatat AI-mut serverikkut nassiunneqassapput. Aqqit, najugaqarfiit, oqarasuaatit imaluunniit paasissutissat immikkut illersorneqartussat ilanngunnagit."
+                        else -> "Allatat serverikkut AI-mut nassiunneqassapput. Inuttut paasissutissat pingaarutillit ilanngunnagit."
                     }
                 }
             }
