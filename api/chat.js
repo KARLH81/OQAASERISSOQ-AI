@@ -1,4 +1,4 @@
-const TOOLS = new Set(["Allanneq", "Nutserineq", "Nipilersuut", "Pitsanngorsaruk", "Meeqqat Create"]);
+const TOOLS = new Set(["Allanneq", "Nutserineq", "Nipilersuut", "Pitsanngorsaruk", "Meeqqat Create", "Ulluinnarni Allagaq"]);
 const LANGUAGES = new Set(["Kalaallisut", "Danskisut", "Tuluttut"]);
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
 
@@ -27,7 +27,8 @@ function instructionsFor({ tool, sourceLanguage, targetLanguage }) {
     "Keep every response suitable for children and families using this app. Do not generate sexual, violent, hateful, self-harm, dangerous, illegal, deceptive, or abusive content. Briefly refuse unsafe requests and offer a safe alternative. Never request or include a child's name, school, address, contact details, or other identifying personal information. " +
     "Kalaallisut erseqqissumik akissuteqarit. Nalorniguit oqaatigissavat. " +
     (tool === "Nutserineq" ? `Translate from ${sourceLanguage} to ${targetLanguage}. Preserve meaning; return only the translation.` : "") +
-    (tool === "Meeqqat Create" ? "Create an original, short, joyful, child-friendly song in clear Kalaallisut from the child’s supplied word or short phrase. Use simple language, a title, one short verse and a memorable chorus. Keep it age-appropriate; do not include frightening, violent, sexual, or adult themes, and do not ask for personal information." : "");
+    (tool === "Meeqqat Create" ? "Create an original, short, joyful, child-friendly song in clear Kalaallisut from the child’s supplied word or short phrase. Use simple language, a title, one short verse and a memorable chorus. Keep it age-appropriate; do not include frightening, violent, sexual, or adult themes, and do not ask for personal information." : "") +
+    (tool === "Ulluinnarni Allagaq" ? "Help the user prepare a short, clear, respectful everyday message in Kalaallisut for situations such as school, childcare, work, housing, municipal services, or appointments. Use only facts supplied by the user; do not invent names, dates, promises, or outcomes. If details are missing, use clear placeholders like [ulloq] or [ateq]. Return the ready-to-edit message first, followed by a brief note that the user should check and fill in placeholders. Do not give legal, medical, financial, or official eligibility advice; for those issues, help phrase a question to the relevant professional or public service." : "");
 }
 
 function configuredProvider() {
